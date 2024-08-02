@@ -4,8 +4,8 @@ import { ref, type Ref } from "vue";
 //TODO: Colocar verificação
 
 interface RomanIntereface {
-  numberForRoman(num: number): string;
-  romanForNumber(roman: string): number;
+  numberToRoman(num: number): string;
+  romanToNumber(roman: string): number;
 }
 
 class Roman implements RomanIntereface {
@@ -16,7 +16,7 @@ class Roman implements RomanIntereface {
     ["M"],
   ];
 
-  public numberForRoman(num: number): string {
+  public numberToRoman(num: number): string {
     let result: string = "";
     switch (String(num).length) {
       case 1:
@@ -53,7 +53,7 @@ class Roman implements RomanIntereface {
     return result;
   }
 
-  public romanForNumber(roman: string): number {
+  public romanToNumber(roman: string): number {
     const saves: string[] = roman.split("");
     let result: number = 0;
     for (let i = 0; i < saves.length; i++) {
@@ -95,18 +95,19 @@ const second_input: Ref<string | undefined> = ref();
 function convert(input: number | string) {
   const romanInstance = new Roman();
   if (input && typeof input === "string") {
-    result.value = romanInstance.romanForNumber(input);
+    result.value = romanInstance.romanToNumber(input);
   } else if (input && typeof input === "number") {
-    result.value = romanInstance.numberForRoman(input);
+    result.value = romanInstance.numberToRoman(input);
   }
 }
 </script>
 
 <template>
   <div class="container">
-    <div class="insid">
+    <div class="inside">
       <h1>Conversor</h1>
-      <span>Conversor número para algarismo romano</span>
+      <p>* máximo: 1999.</p>
+      <span>Conversor: número para algarismo romano.</span>
       <input
         type="number"
         v-model="first_input"
@@ -114,7 +115,7 @@ function convert(input: number | string) {
         class="input-field"
       />
       <button @click="convert(first_input as number)">Converter</button>
-      <span>Conversor algarismo romano para número</span>
+      <span>Conversor: algarismo romano para número.</span>
       <input
         type="text"
         v-model="second_input"
@@ -138,7 +139,7 @@ function convert(input: number | string) {
   justify-content: center;
 }
 
-.insid {
+.inside {
   width: 25%;
   height: 50%;
   padding: 10px;
@@ -151,7 +152,7 @@ function convert(input: number | string) {
 }
 
 h1 {
-  margin-bottom: 25px;
+  margin: 0;
 }
 
 span {
@@ -162,6 +163,11 @@ button {
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #2e2e2e;
+}
+
+p {
+  font-size: 12px;
+  margin-bottom: 20px;
 }
 
 .input-field {
